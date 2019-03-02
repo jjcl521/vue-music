@@ -1,6 +1,6 @@
 # vue-music
 
-> music app wex
+> music app weex
 
 ## Build Setup
 
