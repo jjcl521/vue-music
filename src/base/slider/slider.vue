@@ -15,68 +15,63 @@
 </template>
 
 <script>
-import BScroll from 'better-scroll'
-import { addClass } from 'common/js/dom'
+import BScroll from "better-scroll";
+import { addClass } from "common/js/dom";
 export default {
-  data () {
+  data() {
     return {
       dots: [],
       currentPageIndex: 0
-    }
+    };
   },
   props: {
     loop: {
       type: Boolean,
-      default: true,
+      default: true
     },
     autoPlay: {
       type: Boolean,
-      default: true,
+      default: true
     },
     interval: {
       type: Number,
-      default: 3000,
+      default: 3000
     }
   },
-  mounted () {
+  mounted() {
     setTimeout(() => {
-      this._setSliderWidth()
-      this.__setDots()
-      this._initSlider()
-      if (this.autoPlay)
-        this._play()
-    }, 20)
+      this._setSliderWidth();
+      this.__setDots();
+      this._initSlider();
+      if (this.autoPlay) this._play();
+    }, 20);
 
-    window.addEventListener('resize', () => {
-      this._setSliderWidth(true)
-      this.slider.refresh()
-    })
+    window.addEventListener("resize", () => {
+      this._setSliderWidth(true);
+      this.slider.refresh();
+    });
   },
   methods: {
-    __setDots () {
-      this.dots = new Array(this.children.length)
+    __setDots() {
+      this.dots = new Array(this.children.length);
     },
-    _setSliderWidth (isResize) {
-      this.children = this.$refs.sliderGroup.children
+    _setSliderWidth(isResize) {
+      this.children = this.$refs.sliderGroup.children;
 
-      let width = 0
-      let sliderWidth = this.$refs.slider.clientWidth
+      let width = 0;
+      let sliderWidth = this.$refs.slider.clientWidth;
       for (let i = 0, length = this.children.length; i < length; i++) {
-        let children = this.children[i]
-        children.style.width = sliderWidth + 'px'
-        addClass(children, 'slider-item')
-        width += sliderWidth
+        let children = this.children[i];
+        children.style.width = sliderWidth + "px";
+        addClass(children, "slider-item");
+        width += sliderWidth;
       }
 
-      if (this.loop && !isResize)
-        width += 2 * sliderWidth
+      if (this.loop && !isResize) width += 2 * sliderWidth;
 
-      this.$refs.sliderGroup.style.width = width + 'px'
-
+      this.$refs.sliderGroup.style.width = width + "px";
     },
-    _initSlider () {
-
-
+    _initSlider() {
       this.slider = new BScroll(this.$refs.slider, {
         scrollX: true,
         scrollY: false,
@@ -86,33 +81,27 @@ export default {
           speed: 3000,
           threshold: 0.3
         }
-      })
+      });
 
-      this.slider.on('scrollEnd', () => {
-        var pageIndex = this.slider.getCurrentPage().pageX
-        if (this.lop)
-          pageIndex -= 1
+      this.slider.on("scrollEnd", () => {
+        var pageIndex = this.slider.getCurrentPage().pageX;
+        if (this.loop) pageIndex -= 1;
 
-        this.currentPageIndex = pageIndex
+        this.currentPageIndex = pageIndex;
 
         if (this.autoPlay) {
-          clearTimeout(this.timer)
-          this._play()
+          clearTimeout(this.timer);
+          this._play();
         }
-
-
-      })
+      });
     },
-    _play () {
-
+    _play() {
       this.timer = setTimeout(() => {
-        this.slider.next()
-      }, this.interval)
+        this.slider.next();
+      }, this.interval);
     }
-
   }
-
-}
+};
 </script>
 
 
