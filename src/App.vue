@@ -3,8 +3,6 @@
     <m-header></m-header>
     <tab></tab>
     <router-view></router-view>
-
-    <button v-on:click="btnClick">按钮</button>
   </div>
 </template>
 
@@ -19,11 +17,7 @@ export default {
     Tab
   },
   methods: {
-    btnClick() {
-      getRecommendList().then(r=>{
-        console.info(r)
-      })
-    }
+   
   }
 };
 </script>

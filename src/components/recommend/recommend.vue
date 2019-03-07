@@ -1,33 +1,52 @@
 <template>
   <div class="recommend">
-    <div class="recommend-content">
-      <div v-if="recommends.length" class="slider-wrapper">
-        <slider>
-          <div v-for="(item,index) in recommends" :key="index">
-            <a v-bind:href="item.linkUrl">
-              <img :src="item.picUrl">
-            </a>
-          </div>
-        </slider>
+    <scroll ref="scroll" class="recommend-content">
+      <div>
+        <div v-if="recommends.length" class="slider-wrapper">
+          <slider>
+            <div v-for="(item,index) in recommends" :key="index">
+              <a v-bind:href="item.linkUrl">
+                <img :src="item.picUrl">
+              </a>
+            </div>
+          </slider>
+        </div>
+        <div class="recommend-list">
+          <h1 class="list-title">热门歌单推荐</h1>
+          <ul>
+            <li v-for="(item,index) in discList" class="item" :key="index">
+              <div class="icon">
+                <img width="60" height="60">
+              </div>
+              <div class="text">
+                <h2 class="name" v-html="item.data.songname"></h2>
+                <p class="desc" v-html="item.albumdesc"></p>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </scroll>
   </div>
 </template>
 
 
 <script>
+import scroll from "base/scroll/scroll";
 import Slider from "base/slider/slider";
-import { getRecommend } from "api/recommend";
+import { getRecommend, getRecommendList } from "api/recommend";
 import { Success } from "api/config";
 
 export default {
   data() {
     return {
-      recommends: []
+      recommends: [],
+      discList: []
     };
   },
   created() {
     this._getRecommend();
+    this._getRecommendList();
   },
   methods: {
     _getRecommend() {
@@ -36,10 +55,16 @@ export default {
           this.recommends = r.data.slider;
         }
       });
+    },
+    _getRecommendList() {
+      getRecommendList().then(r => {
+        this.discList = r;
+      });
     }
   },
   components: {
-    Slider
+    Slider,
+    scroll
   }
 };
 </script>

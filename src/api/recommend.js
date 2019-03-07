@@ -16,17 +16,29 @@ export function getRecommend() {
 export function getRecommendList() {
   //let url='https://c.y.qq.com/v8/fcg-bin/fcg_myqq_toplist.fcg';
   var params = Object.assign({}, defaultParams, {
-    platform: "h5",
-    uin: 0,
+    tpl: 3,
+    page: "detail",
+    date: "2019_09",
+    topid: 5,
+    type: "top",
+    song_begin: 0,
+    song_num: 30,
+    g_tk: 5381,
+    loginUin: 0,
+    hostUin: 0,
     format: "json",
-    needNewCode: 1
+    inCharset: "utf8",
+    outCharset: "utf8",
+    notice: 0,
+    platform: "yqq.json",
+    needNewCode: 0,
   });
   let promise = new Promise((resolve, reject) => {
     axios.get('/api/recommend/list', {
       params: params
     }).then(r => {
       if (r.data.code === Success)
-        resolve(r.data.data);
+        resolve(r.data.songlist);
       else
         reject(r.message)
     })
