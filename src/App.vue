@@ -3,16 +3,27 @@
     <m-header></m-header>
     <tab></tab>
     <router-view></router-view>
+
+    <button v-on:click="btnClick">按钮</button>
   </div>
 </template>
 
 <script type='text/ecmascript-6'>
 import MHeader from "components/m-header/m-header.vue";
 import Tab from "components/tab/tab";
+import {getRecommendList} from "api/recommend";
+
 export default {
   components: {
     MHeader,
     Tab
+  },
+  methods: {
+    btnClick() {
+      getRecommendList().then(r=>{
+        console.info(r)
+      })
+    }
   }
 };
 </script>
