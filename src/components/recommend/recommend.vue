@@ -16,11 +16,11 @@
           <ul>
             <li v-for="(item,index) in discList" class="item" :key="index">
               <div class="icon">
-                <img width="60" height="60">
+                <img width="60" height="60" v-bind:src='_getImgUrl(item.data.albummid)'>
               </div>
               <div class="text">
                 <h2 class="name" v-html="item.data.songname"></h2>
-                <p class="desc" v-html="item.albumdesc"></p>
+                <p class="desc" v-html="item.data.albumdesc"></p>
               </div>
             </li>
           </ul>
@@ -60,6 +60,9 @@ export default {
       getRecommendList().then(r => {
         this.discList = r;
       });
+    },
+    _getImgUrl(albummid){
+      return `https://y.gtimg.cn/music/photo_new/T002R90x90M000${albummid}.jpg?max_age=2592000`;
     }
   },
   components: {
