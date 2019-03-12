@@ -1,12 +1,12 @@
 <template>
   <div class="recommend">
-    <scroll ref="scroll" class="recommend-content">
+    <scroll ref="scroll" class="recommend-content" v-bind:data="discList">
       <div>
         <div v-if="recommends.length" class="slider-wrapper">
           <slider>
             <div v-for="(item,index) in recommends" :key="index">
               <a v-bind:href="item.linkUrl">
-                <img :src="item.picUrl">
+                <img v-on:load="loadImage" :src="item.picUrl">
               </a>
             </div>
           </slider>
@@ -16,7 +16,7 @@
           <ul>
             <li v-for="(item,index) in discList" class="item" :key="index">
               <div class="icon">
-                <img width="60" height="60" v-bind:src='_getImgUrl(item.data.albummid)'>
+                <img width="60" height="60" v-bind:src="_getImgUrl(item.data.albummid)">
               </div>
               <div class="text">
                 <h2 class="name" v-html="item.data.songname"></h2>
@@ -61,8 +61,14 @@ export default {
         this.discList = r;
       });
     },
-    _getImgUrl(albummid){
+    _getImgUrl(albummid) {
       return `https://y.gtimg.cn/music/photo_new/T002R90x90M000${albummid}.jpg?max_age=2592000`;
+    },
+    loadImage() {
+      if (!this.loaded) {
+        this.$refs.scroll.refresh();
+        this.loaded = true;
+      }
     }
   },
   components: {
