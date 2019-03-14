@@ -23,7 +23,7 @@ export default {
     }
   },
   mounted() {
-    setTimeout(() => {
+    setTimeout(() => {      
       this._initScroll();
     }, 20);
   },

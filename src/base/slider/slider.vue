@@ -84,7 +84,7 @@ export default {
       });
 
       this.slider.on("scrollEnd", () => {
-        var pageIndex = this.slider.getCurrentPage().pageX;
+        let pageIndex = this.slider.getCurrentPage().pageX;
         if (this.loop) pageIndex -= 1;
 
         this.currentPageIndex = pageIndex;

@@ -16,7 +16,7 @@
           <ul>
             <li v-for="(item,index) in discList" class="item" :key="index">
               <div class="icon">
-                <img width="60" height="60" v-bind:src="_getImgUrl(item.data.albummid)">
+                <img width="60" height="60" v-lazy="_getImgUrl(item.data.albummid)">
               </div>
               <div class="text">
                 <h2 class="name" v-html="item.data.songname"></h2>
@@ -76,7 +76,7 @@ export default {
   components: {
     Slider,
     scroll,
-    Loading
+    Loading    
   }
 };
 </script>

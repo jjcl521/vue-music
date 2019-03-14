@@ -6,18 +6,25 @@ const path = require('path')
 
 module.exports = {
   dev: {
-
+    disableHostCheck: true,
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/qq': {
-        target: 'http://c.y.qq.com',
-        //changeOrigin: true,
-        pathRewrite: {
-          '^/qq': ''
+      '/api/recommend/list': {
+        target: 'https://c.y.qq.com/',
+        changeOrigin: true,        
+        pathRewrite: {          
+          '^/api/recommend/list': '/v8/fcg-bin/fcg_v8_toplist_cp.fcg'
         }
-      }
+      },
+      '/api/singer/list': {
+        target: 'https://u.y.qq.com/',
+        changeOrigin: true,        
+        pathRewrite: {          
+          '^/api/singer/list': '/cgi-bin/musicu.fcg'
+        }
+      },
     },
 
     // Various Dev Server settings

@@ -1,5 +1,9 @@
 import jsonp from 'common/js/jsonp'
-import { defaultParams, options, Success } from './config.js'
+import {
+  defaultParams,
+  options,
+  Success
+} from './config.js'
 import axios from 'axios'
 
 export function getRecommend() {
@@ -15,7 +19,7 @@ export function getRecommend() {
 
 export function getRecommendList() {
   //let url='https://c.y.qq.com/v8/fcg-bin/fcg_myqq_toplist.fcg';
-  var params = Object.assign({}, defaultParams, {
+  let params = Object.assign({}, defaultParams, {
     tpl: 3,
     page: "detail",
     date: "2019_09",
