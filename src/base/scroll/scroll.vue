@@ -20,10 +20,14 @@ export default {
     data: {
       type: Array,
       default: null
+    },
+    listenScroll: {
+      type: Boolean,
+      default: false
     }
   },
   mounted() {
-    setTimeout(() => {      
+    setTimeout(() => {
       this._initScroll();
     }, 20);
   },
@@ -33,6 +37,11 @@ export default {
         probeType: this.probeType,
         click: this.click
       });
+      if (this.listenScroll) {
+        this.scroll.on("scroll", pos => {
+          this.$emit("scroll", pos);
+        });
+      }
     },
     refresh() {
       this.scroll && this.scroll.refresh();
@@ -42,6 +51,12 @@ export default {
     },
     disable() {
       this.scroll && this.scroll.disable();
+    },
+    scrollToElement() {
+      this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments);
+    },
+    scrollTo() {
+      this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments);
     }
   },
   watch: {
