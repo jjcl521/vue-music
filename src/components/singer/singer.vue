@@ -1,12 +1,15 @@
 <template>
   <div class="singer">
-    <list-view :data="Singers"></list-view>
+    <list-view v-on:selected="selected" :data="Singers"></list-view>
+    <router-view></router-view>
   </div>
 </template>
 <script>
 import { getSingerList } from "api/singer";
 import { getPinYin } from "api/pinyin";
 import ListView from "base/listview/listview";
+import { mapMutations, mapGetters } from "vuex";
+import * as types from "src/store/mutation-type";
 const HOT_NAME = "热门";
 const HOT_LENGTH = 10;
 export default {
@@ -24,6 +27,12 @@ export default {
     });
   },
   methods: {
+    selected(singer) {
+      this.setSinger(singer);
+      this.$router.push({
+        path: `/singer/${singer.id}`
+      });
+    },
     _groupSinger(singerList) {
       let map = {
         hot: {
@@ -65,7 +74,13 @@ export default {
       });
       ret.unshift(map.hot);
       return ret;
-    }
+    },
+    ...mapMutations({
+      setSinger: types.SET_SINGER
+    }),
+    ...mapGetters({
+      getSinger: "singer"
+    })
   }
 };
 </script>

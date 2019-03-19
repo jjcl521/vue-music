@@ -8,12 +8,22 @@
     ref="listview"
   >
     <ul>
-      <li class="list-group" v-for="(group,index) in data" :key="index" ref="listGroup">
-        <h2 class="list-group-title">{{group.title}}</h2>
+      <li
+        class="list-group"
+        v-for="(group, index) in data"
+        :key="index"
+        ref="listGroup"
+      >
+        <h2 class="list-group-title">{{ group.title }}</h2>
         <ul>
-          <li class="list-group-item" v-for="(item,index) in group.items" :key="index">
-            <img v-lazy="item.img" class="avatar">
-            <span class="name">{{item.name}}</span>
+          <li
+            class="list-group-item"
+            v-on:click="selected(item)"
+            v-for="(item, index) in group.items"
+            :key="index"
+          >
+            <img v-lazy="item.img" class="avatar" />
+            <span class="name">{{ item.name }}</span>
           </li>
         </ul>
       </li>
@@ -26,15 +36,17 @@
       <ul>
         <li
           class="item"
-          v-for="(item ,index) in getHotKey"
+          v-for="(item, index) in getHotKey"
           :key="index"
           :data-index="index"
-          v-bind:class="{'current':currentIndex===index}"
-        >{{item}}</li>
+          v-bind:class="{ current: currentIndex === index }"
+        >
+          {{ item }}
+        </li>
       </ul>
     </div>
     <div class="list-fixed" ref="fixed">
-      <span class="fixed-title">{{fixedTitle}}</span>
+      <span class="fixed-title">{{ fixedTitle }}</span>
     </div>
   </scroll>
 </template>
@@ -130,6 +142,9 @@ export default {
     },
     onScroll(pos) {
       this.scrollY = pos.y;
+    },
+    selected(item) {
+      this.$emit("selected", item);
     },
     _scrollTo(index) {
       //处理边界情况
@@ -247,4 +262,3 @@ export default {
   }
 }
 </style>
-
