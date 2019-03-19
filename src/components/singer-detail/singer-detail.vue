@@ -1,7 +1,6 @@
 <template>
   <div class="singer-detail">
-    111111
-    {{ singer }}
+    {{ singer.name }}
   </div>
 </template>
 
