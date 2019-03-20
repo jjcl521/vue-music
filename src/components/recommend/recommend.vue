@@ -4,9 +4,9 @@
       <div>
         <div v-if="recommends.length" class="slider-wrapper">
           <slider>
-            <div v-for="(item, index) in recommends" :key="index">
+            <div v-for="(item,index) in recommends" :key="index">
               <a v-bind:href="item.linkUrl">
-                <img v-on:load="loadImage" :src="item.picUrl" />
+                <img v-on:load="loadImage" :src="item.picUrl">
               </a>
             </div>
           </slider>
@@ -14,13 +14,9 @@
         <div class="recommend-list">
           <h1 class="list-title">热门歌单推荐</h1>
           <ul>
-            <li v-for="(item, index) in discList" class="item" :key="index">
+            <li v-for="(item,index) in discList" class="item" :key="index">
               <div class="icon">
-                <img
-                  width="60"
-                  height="60"
-                  v-lazy="_getImgUrl(item.data.albummid)"
-                />
+                <img width="60" height="60" v-lazy="_getImgUrl(item.data.albummid)">
               </div>
               <div class="text">
                 <h2 class="name" v-html="item.data.songname"></h2>
@@ -29,11 +25,12 @@
             </li>
           </ul>
         </div>
-        <Loading v-show="discList.length == 0"></Loading>
+        <Loading v-show="discList.length==0"></Loading>
       </div>
     </scroll>
   </div>
 </template>
+
 
 <script>
 import scroll from "base/scroll/scroll";
@@ -79,7 +76,7 @@ export default {
   components: {
     Slider,
     scroll,
-    Loading
+    Loading    
   }
 };
 </script>

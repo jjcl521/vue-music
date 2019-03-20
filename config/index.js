@@ -25,10 +25,17 @@ module.exports = {
           '^/api/singer/list': '/cgi-bin/musicu.fcg'
         }
       },
+      '/api/singer/get':{
+        target: 'https://c.y.qq.com/',
+        changeOrigin: true,        
+        pathRewrite: {          
+          '^/api/singer/get': '/v8/fcg-bin/fcg_v8_singer_track_cp.fcg'
+        }
+      }
     },
 
     // Various Dev Server settings
-    host: '192.168.3.146', // can be overwritten by process.env.HOST
+    host: '0.0.0.0', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

@@ -22,7 +22,7 @@ export default {
     "list-view": ListView
   },
   mounted() {
-    getSingerList().then(r => {
+    getSingerList().then(r => {      
       this.Singers = this._groupSinger(r.data.singerlist);
     });
   },
@@ -30,7 +30,7 @@ export default {
     selected(singer) {
       this.setSinger(singer);
       this.$router.push({
-        path: `/singer/${singer.id}`
+        path: `/singer/${singer.mid}`
       });
     },
     _groupSinger(singerList) {
@@ -45,6 +45,7 @@ export default {
         if (index < HOT_LENGTH) {
           map.hot.items.push({
             id: item.singer_id,
+            mid: item.singer_mid,
             name: item.singer_name,
             img: item.singer_pic
           });
@@ -57,6 +58,7 @@ export default {
         }
         map[key].items.push({
           id: item.singer_id,
+          mid: item.singer_mid,
           name: item.singer_name,
           img: item.singer_pic
         });
