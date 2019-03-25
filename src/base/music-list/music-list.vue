@@ -6,7 +6,7 @@
     <h1 class="title" v-html="title"></h1>
     <div class="bg-image" :style="bgStyle" ref="bgImage">
       <div class="play-wrapper">
-        <div ref="playBtn" v-show="songs.length>0" class="play" @click="random">
+        <div ref="playBtn" v-show="songs.length > 0" class="play">
           <i class="icon-play"></i>
           <span class="text">随机播放全部</span>
         </div>
@@ -14,22 +14,20 @@
       <div class="filter" ref="filter"></div>
     </div>
     <div class="bg-layer" ref="layer"></div>
-    <scroll
-      :data="songs"
-      @scroll="scroll"    
-      class="list"
-      ref="list"
-    >
+    <scroll :data="songs" :listen-scroll="listenScroll" :probe-type="probeType"  @scroll="scroll" class="list" ref="list">
       <div class="song-list-wrapper">
-        <song-list :songs="songs" :rank="rank" @select="selectItem"></song-list>
+        <song-list :songs="songs"  @select="selectItem"></song-list>
       </div>
-      <div v-show="!songs.length" class="loading-container">
-        <loading></loading>
-      </div>
+      <!--<div v-show="!songs.length" class="loading-container">-->
+        <!--<loading></loading>-->
+      <!--</div>-->
     </scroll>
   </div>
 </template>
 <script>
+import Scroll from "base/scroll/scroll";
+import SongList from 'base/song-list/song-list'
+import Loading from 'base/loading/loading'
 export default {
   props: {
     title: {
@@ -39,11 +37,45 @@ export default {
     songs: {
       type: Array,
       default: () => []
+    },
+    bgImage: {
+      type: String,
+      default: ""
     }
+  },
+  data(){
+    return {
+      rank:''
+    }
+  },
+  computed: {
+    bgStyle() {
+      return `background-image:url(${this.bgImage})`
+    }
+  },
+  methods: {
+    back() {
+      this.$router.back();
+    },
+    selectItem(){
+
+    },
+    scroll(){
+
+    }
+  },
+  created(){
+    this.probeType=3;
+    this.listenScroll=true;
+    console.info(this.songs)
+  },
+  components:{
+    Scroll,
+    SongList,
+    Loading
   }
 };
 </script>
-
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
 @import '~common/stylus/variable';
@@ -161,5 +193,3 @@ export default {
   }
 }
 </style>
-
-

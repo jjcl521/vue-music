@@ -1,39 +1,52 @@
 <template>
-  <music-list></music-list>
+  <music-list :title="title" :bg-image="bgImage" :songs="songs"></music-list>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import { getSinger } from "api/singer";
 import { createSong } from "common/js/song";
-import MusicList from "base/music-list/music-list"
+import MusicList from "base/music-list/music-list";
 export default {
   data() {
     return {
-      singer: {},
+      singer:{},
       songs: []
     };
   },
-  methods: {
+  computed: {
+    title() {
+      return this.singer.name;
+    },
+    bgImage() {
+      return this.singer.img;
+    },
     ...mapGetters({
       getSinger: "singer"
     })
   },
-  mounted() {},
+  methods: {},
   created() {
-    this.singer = this.getSinger();
-    if (!this.singer.mid)
+    this.singer=this.getSinger;
+
+    if (!this.singer.mid){
       this.$router.push({
         path: "/singer"
       });
-    getSinger(this.singer.mid).then(lst => {
-      lst.forEach(item => {
-        this.songs.push(createSong(item.musicData));
+      return;
+    }
+
+    getSinger(this.singer.mid)
+      .then(lst => {
+        lst.forEach(item => {
+          this.songs.push(createSong(item.musicData));
+        });
+      })
+      .catch(e => {
+        console.info(e);
       });
-      console.info(this.songs);
-    });
   },
-  components:{
+  components: {
     MusicList
   }
 };

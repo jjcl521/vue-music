@@ -5,6 +5,7 @@ export class Song {
         this.albumname = albumname;
         this.songid = songid;
         this.singer = singer.map(s => s.name).join("/");
+        this.url=`https://y.qq.com/n/yqq/singer/${albummid}.html#stat=y_new.singerlist.singerpic`;
     }
 }
 
