@@ -14,20 +14,30 @@
       <div class="filter" ref="filter"></div>
     </div>
     <div class="bg-layer" ref="layer"></div>
-    <scroll :data="songs" :listen-scroll="listenScroll" :probe-type="probeType"  @scroll="scroll" class="list" ref="list">
+    <scroll
+      :data="songs"
+      :listen-scroll="listenScroll"
+      :probe-type="probeType"
+      @scroll="scroll"
+      class="list"
+      ref="list"
+    >
       <div class="song-list-wrapper">
-        <song-list :songs="songs"  @select="selectItem"></song-list>
+        <song-list :songs="songs" @select="selectItem"></song-list>
       </div>
-      <!--<div v-show="!songs.length" class="loading-container">-->
-        <!--<loading></loading>-->
-      <!--</div>-->
+      <div v-show="!songs.length" class="loading-container">
+        <loading></loading>
+      </div>
     </scroll>
   </div>
 </template>
 <script>
 import Scroll from "base/scroll/scroll";
-import SongList from 'base/song-list/song-list'
-import Loading from 'base/loading/loading'
+import SongList from "base/song-list/song-list";
+import Loading from "base/loading/loading";
+
+const RESERVED_HEIGHT = 40;
+
 export default {
   props: {
     title: {
@@ -43,33 +53,71 @@ export default {
       default: ""
     }
   },
-  data(){
+  data() {
     return {
-      rank:''
-    }
+      rank: "",
+      scrollY: 0
+    };
   },
   computed: {
-    bgStyle() {
-      return `background-image:url(${this.bgImage})`
+    bgStyle() {     
+      return `background-image:url(${this.bgImage})`;
     }
+  },
+  mounted() {
+    this.imageHeight = this.$refs.bgImage.clientHeight;
+    this.minTransLateY = -this.imageHeight + RESERVED_HEIGHT;
+    this.$refs.list.$el.style.top = `${this.imageHeight}px`;
   },
   methods: {
     back() {
       this.$router.back();
     },
-    selectItem(){
-
-    },
-    scroll(){
-
+    selectItem() {},
+    scroll(pos) {
+      this.scrollY = pos.y;
     }
   },
-  created(){
-    this.probeType=3;
-    this.listenScroll=true;
-    console.info(this.songs)
+  watch: {
+    scrollY(val) {
+      this.transLateY = Math.max(this.minTransLateY, val);
+      let zIndex = 0;
+      let scale = 1;
+      let blur = 20;
+      const percent = Math.abs(val) / this.imageHeight;
+      if (val > 0) {
+        scale = 1 + percent;
+      } else {
+        blur = Math.min(100 * percent, 100);
+      }
+
+      this.$refs.filter.style["backdrop-filter"] = `blur(${blur}px)`;
+      this.$refs.filter.style["webKitBackdrop-filter"] = `blur(${blur}px)`;
+      this.$refs.layer.style["transform"] = `translate3d(0,${
+        this.transLateY
+      }px,0)`;
+
+      if (val < this.minTransLateY) {
+        zIndex = 10;
+        this.$refs.bgImage.style.paddingTop = 0;
+        this.$refs.bgImage.style.height = `${RESERVED_HEIGHT}px`;
+        this.$refs.playBtn.style.display = "none";
+      } else {
+        zIndex = 0;
+        this.$refs.bgImage.style.paddingTop = "70%";
+        this.$refs.bgImage.style.height = 0;
+        this.$refs.playBtn.style.display = "";
+      }
+      this.$refs.bgImage.style.zIndex = zIndex;
+      this.$refs.bgImage.style["transform"] = `scale(${scale})`;
+    }
   },
-  components:{
+  created() {
+    this.probeType = 3;
+    this.listenScroll = true;
+    console.info(this.songs);
+  },
+  components: {
     Scroll,
     SongList,
     Loading

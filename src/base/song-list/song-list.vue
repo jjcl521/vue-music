@@ -37,12 +37,12 @@ export default {
     getRankText(index){
       this.songs[index].name
     },
-    getDesc(song){
-      return song.name
+    getDesc(song){    
+      return song.singer
     }
   },
   create(){
-    console.info(this.songs)
+  
   }
 };
 </script>
